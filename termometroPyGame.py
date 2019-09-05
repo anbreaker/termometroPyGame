@@ -16,13 +16,17 @@ class NumberInput():
     def __init__(self, value = 0):
         #Ponemos una fuete y un tamaño
         self.__font = pygame.font.SysFont('Arial',24)
-        try:
-            #Compruebo es un numero
-            self.__strValue = int(value)
-            #Una vez que es un numero lo paso a cadena
-            self.__strValue = str(value)
-        except:
-            pass
+        #llamo al metodo que me asignara el texto y que comprueba es numero
+        self.value(value) 
+
+    def on_event(self, event):
+        if event.type == KEYDOWN:
+            if event.unicode.isdigit() and len(self.__strValue) <= 5:
+                self.__strValue += event.unicode
+            elif event.key == K_BACKSPACE:
+                #Para borrar la ultima cifra escrita
+                self.__strValue = self.__strValue[0:-1]
+
 
 
     def render(self):
@@ -50,7 +54,9 @@ class NumberInput():
             val = str(val)
             print(val, "cadena")
             try:
+                #Compruebo es un numero
                 self.__value = float(val)
+                #Una vez que es un numero lo paso a cadena
                 self.__strValue = val
             except:
                 pass
@@ -138,6 +144,11 @@ class MainApp():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.__close()
+                
+                self.entrada.on_event(event)
+
+
+
             
             #Nos pinta la pantalla con el termometro
             self.__screen.blit(self.termometro.custome, (50,34))
