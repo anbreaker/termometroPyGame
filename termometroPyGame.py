@@ -7,6 +7,16 @@ class Termometro():
         #coloco imagen del termometro
         self.custome = pygame.image.load("images/termo1.png")
 
+class Selector():
+    __tipoUnidad = None
+
+    def __init__(self, unidad='C'):   
+        self.unidad = name
+        self.__customes = []
+        self.__customes.append(pygame.load("images/posiF.png"))
+        self.__customes.append(pygame.load("images/posiC.png"))
+
+
 class NumberInput():
     __value =  0
     __strValue = "0"
@@ -23,10 +33,13 @@ class NumberInput():
         if event.type == KEYDOWN:
             if event.unicode.isdigit() and len(self.__strValue) <= 5:
                 self.__strValue += event.unicode
+                self.value(self.__strValue)
+                print(self.__strValue, self.__value)
             elif event.key == K_BACKSPACE:
-                #Para borrar la ultima cifra escrita
+                #Para borrar la ultima cifra escrita 
                 self.__strValue = self.__strValue[0:-1]
-
+                self.value(self.__strValue)
+                print(self.__strValue, self.__value)
 
 
     def render(self):
@@ -128,12 +141,16 @@ class MainApp():
         #Cargamos la imagen de fondo del display
         self.__screen.fill((244,236,203))
 
+        #Construccion de los Objetos
         self.termometro = Termometro()
         self.entrada = NumberInput()
+        self.selector = Selector()
 
-        #Posicion del rectangulo
+        #Posicion de lo rectangulos y elementos gráficos
         self.entrada.pos((106, 58))
         self.entrada.size((133,28))
+        
+        
     
     def __close(self):
         pygame.quit()
